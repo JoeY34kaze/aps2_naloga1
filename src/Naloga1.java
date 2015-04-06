@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Naloga1 {
@@ -9,32 +10,36 @@ public class Naloga1 {
 
 	
 	
-	/*private static int[] read_intArray_from_stdin() {//za napisat
-		int vel=1;
-		if(table_length!= -1){vel=table_length;}
-		else{table_length=0;}
-		int[] rez= new int[vel];
-		Scanner s=new Scanner(System.in);
-		int i=0;
-		while (s.hasNextInt()) {
-			//System.out.println("aaa");
-			if(i>=rez.length){//ce je vecji je treba tabelo alocirat naprej
-				if(vel<2){vel=2;}
-				else {vel*=2;}
-				rez=double_array(rez,vel);
-			}
-		        rez[i]=s.nextInt();
-		        i++;
-		        table_length++;//globaln stevec za stevilo elementov ce bo treba
-		        System.out.println("i: "+i);
-		     
-		  }
-		s.close();
+	private static int[] read_intArray_from_stdin() {//za napisat
 		
-		int[] r= {8, 5, 6, 1, 7, 2};
-		for(int n:rez){System.out.printf("%d",n);}
-		return r;
-	} */
+		if(table_length<0){
+			int[] rez= new int[1];
+			Scanner s=new Scanner(System.in);
+			int i=0;
+			while (s.hasNextInt()) {
+				rez[i] = s.nextInt();
+				if(!s.hasNextInt()) break;
+				else{
+					rez = Arrays.copyOf(rez, rez.length+1);
+					i++;
+				}
+			}
+			return rez;
+		}else{//ce je dolzina podana
+			int[] rez= new int[table_length];
+			Scanner s=new Scanner(System.in);
+			int i=0;
+			while ((s.hasNextInt())&&(i<table_length)) {
+				rez[i] = s.nextInt();
+				if(!s.hasNextInt()){ break;}
+					i++;
+				
+			}
+			return rez;
+		}
+		
+		
+	} 
 
 	private static int[] bs_asc(int[] in, int len) {//   bs asc naj bi bil zakljucen
 		int prim=0;
@@ -168,8 +173,8 @@ public class Naloga1 {
 		
 		
 		
-		//int[] a=read_intArray_from_stdin();
-		int[] a= {8,5,6,1,7,2};
+		int[] a=read_intArray_from_stdin();
+		//int[] a= {8,5,6,1,7,2};
 		run_algo(a,nacin, algo, order, table_length);
 	}
 
