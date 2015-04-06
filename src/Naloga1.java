@@ -12,7 +12,7 @@ public class Naloga1 {
 	
 	private static int[] read_intArray_from_stdin() {//za napisat
 		
-		if(table_length<0){
+		if(table_length==-1){
 			int[] rez= new int[1];
 			Scanner s=new Scanner(System.in);
 			int i=0;
@@ -168,12 +168,103 @@ public class Naloga1 {
 		return in;
 		
 	}
+	
+	
+	private static int[] is_asc(int[] in, int len) {
+		int a=1;
+		int b=in.length-1;
+		int prim=0;
+		int prem=0;
+		int t;
+		int i=1;
+		while(a<=b){
+			t=a;
+			if(nacin.equals("trace")){izpisi_sled(in, a);}
+			while((t>0)){
+				prim++;
+				if((in[t]<in[t-1])){
+					if(t==1){
+						prim-=1; //because of some bullshit deduct
+						prem+=3;
+						int temp=in[t-1];
+						in[t-1]=in[t];
+						in[t]=temp;
+						t--;
+					}
+					else{
+						prem+=3;
+						int temp=in[t-1];
+						in[t-1]=in[t];
+						in[t]=temp;
+						t--;
+					}
+				}
+				else{
+					
+					t--;
+				}
+
+			}
+			a++;
+		}
+		if(nacin.equals("trace")){izpisi_sled(in, a);}
+		if(nacin.equals("count")){System.out.println(prim+" "+prem);}
+		return in;
+	}
+
+
+	private static int[] is_desc(int[] in, int len) {
+		int a=1;
+		int b=in.length-1;
+		int prim=0;
+		int prem=0;
+		int t;
+		int i=1;
+		while(a<=b){
+			t=a;
+			if(nacin.equals("trace")){izpisi_sled(in, a);}
+			while((t>0)){
+				prim++;
+				if((in[t]>in[t-1])){
+					if(t==1){
+						prim-=1; //because of some bullshit deduct
+						prem+=3;
+						int temp=in[t-1];
+						in[t-1]=in[t];
+						in[t]=temp;
+						t--;
+					}
+					else{
+						prem+=3;
+						int temp=in[t-1];
+						in[t-1]=in[t];
+						in[t]=temp;
+						t--;
+					}
+				}
+				else{
+					
+					t--;
+				}
+
+			}
+			a++;
+		}
+		if(nacin.equals("trace")){izpisi_sled(in, a);}
+		if(nacin.equals("count")){System.out.println(prim+" "+prem);}
+		return in;
+	}
+
 	public static void main(String[] args) {
 		set_arg(args, args.length);
 		
 		
 		
 		int[] a=read_intArray_from_stdin();
+		
+		//for(int n:a){System.out.println("- "+n);}
+		
+		
 		//int[] a= {8,5,6,1,7,2};
 		run_algo(a,nacin, algo, order, table_length);
 	}
@@ -184,6 +275,7 @@ public class Naloga1 {
 			if(i==dolzina_urejenega_dela){iz=iz+"| ";}
 			iz=iz+in[i]+" ";
 		}
+		if(dolzina_urejenega_dela == in.length){iz=iz+"| ";}
 		System.out.println(iz);
 	}
 
@@ -213,9 +305,20 @@ public class Naloga1 {
 				ss_desc(urejen, len);
 				ss_asc(urejen, len);
 			}
-			
-	
-		}else{}
+		}else if (al.equals("is") && ord.equals("up")) {
+			int[] urejen = is_asc(in, len);
+			if (nacin.equals("count")) {// se druga dva nacina za count
+				is_asc(urejen, len);
+				is_desc(urejen, len);
+			}
+		}else if (al.equals("is") && ord.equals("down")) {
+			int[] urejen = is_desc(in, len);
+			if (nacin.equals("count")) {// se druga dva nacina za count
+				is_desc(urejen, len);
+				is_asc(urejen, len);
+			}
+		}
+		else{}
 	}
 
 	private static int[] double_array(int[] a, int vel){
