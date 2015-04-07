@@ -6,11 +6,13 @@ public class Naloga1 {
 	public static String algo; //ss,ms,hs,...
 	public static String order;//asc, desc
 	public static int table_length=-1;
+	
+	public static int[] za_qs;
 
 
 	
 	
-	private static int[] read_intArray_from_stdin() {//za napisat
+ 	private static int[] read_intArray_from_stdin() {//za napisat
 		
 		if(table_length==-1){
 			int[] rez= new int[1];
@@ -260,13 +262,15 @@ public class Naloga1 {
 		
 		
 		
-		int[] a=read_intArray_from_stdin();
+		//int[] a=read_intArray_from_stdin();
 		
 		//for(int n:a){System.out.println("- "+n);}
 		
 		
 		//int[] a= {8,5,6,1,7,2};
+		int[] a= {8, 5, 6, 1, 7, 2, 0, 9};
 		run_algo(a,nacin, algo, order, table_length);
+		//izpisi_sled_qs(za_qs, 0, 0);
 	}
 
 	public static void izpisi_sled(int[] in, int dolzina_urejenega_dela){
@@ -276,6 +280,16 @@ public class Naloga1 {
 			iz=iz+in[i]+" ";
 		}
 		if(dolzina_urejenega_dela == in.length){iz=iz+"| ";}
+		System.out.println(iz);
+	}
+	
+	public static void izpisi_sled_qs(int[] in, int levi, int desni){
+		String iz="";
+		for(int i=0;i<in.length;i++){
+			if((i==levi) || i==desni){iz=iz+"| ";}
+			iz=iz+in[i]+" ";
+		}
+		//if(dolzina_urejenega_dela == in.length){iz=iz+"| ";}
 		System.out.println(iz);
 	}
 
@@ -317,9 +331,89 @@ public class Naloga1 {
 				is_desc(urejen, len);
 				is_asc(urejen, len);
 			}
+		}else if (al.equals("qs") && ord.equals("up")) {
+			za_qs=in;
+			System.out.println("sled: -");
+			qs_asc();
+			if (nacin.equals("count")) {// se druga dva nacina za count
+				qs_asc();//urejen je itak
+				qs_desc(); //isto bi mogl delat
+			}
+		}else if (al.equals("qs") && ord.equals("down")) {
+			za_qs=in;
+			qs_desc();
+			if (nacin.equals("count")) {// se druga dva nacina za count
+				qs_desc();
+				qs_asc();
+			}
 		}
-		else{}
+		
 	}
+
+	private static void qs_desc() {
+		divide_desc(0, za_qs.length-1);	
+	}
+
+	public static void qs_asc() {
+        divide_asc(0,za_qs.length-1);
+	  }
+	
+	public static void divide_desc(int levi, int desni){ //to je zdej samo za up
+		int i = levi, j = desni;
+        int pivot = za_qs[(i+j)/2];
+	    while (i <= j) {
+	      while (za_qs[i] > pivot) {
+	        i++;
+	      }
+	      while (za_qs[j] < pivot) {
+	        j--;
+	      }
+	      if (i <= j) {
+	        exchange(i, j);
+	        i++;
+	        j--;
+	      }
+	    }
+	    izpisi_sled(za_qs, 0);
+        if(levi < j) divide_desc(levi,j); // leva polovica od zaèetka tabele do elementa, pri katerem se tabela deli
+        if(i < desni) divide_desc(i, desni); // desna polovica od elementa+1, kjer se je tabela delila do konca tabele
+	}
+	
+	
+	
+	public static void divide_asc(int levi, int desni){ //to je zdej samo za up
+		int i = levi, j = desni;
+        int pivot = za_qs[(i+j)/2];
+	    while (i <= j) {
+	      while (za_qs[i] < pivot) {
+	        i++;
+	      }
+	      while (za_qs[j] > pivot) {
+	        j--;
+	      }
+	      if (i <= j) {
+	        exchange(i, j);
+	        i++;
+	        j--;
+	      }
+	    }
+	    izpisi_sled(za_qs, 0);
+        if(levi < j) divide_asc(levi,j); // leva polovica od zaèetka tabele do elementa, pri katerem se tabela deli
+        if(i < desni) divide_asc(i, desni); // desna polovica od elementa+1, kjer se je tabela delila do konca tabele
+	}
+
+
+	  private static void exchange(int i, int j) {
+	    int temp = za_qs[i];
+	    za_qs[i] = za_qs[j];
+	    za_qs[j] = temp;
+	  }
+	
+
+	private static int qs_desc(int levi, int desni) {
+		return (Integer) null;
+	}
+
 
 	private static int[] double_array(int[] a, int vel){
 		if(vel<2){vel=2;}
