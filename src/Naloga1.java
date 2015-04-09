@@ -8,6 +8,9 @@ public class Naloga1 {
 	public static int table_length=-1;
 	
 	public static int[] za_qs;
+	
+	public static int primerjave=0;
+	public static int premiki=0;
 
 
 	
@@ -341,7 +344,9 @@ public class Naloga1 {
 	}
 
 	private static void qs_desc() {
+		primerjave=0; premiki=0;
 		divide_desc(0, za_qs.length-1);	
+		if(nacin.equals("count")){System.out.println(primerjave+" "+premiki);}
 	}
 
 	public static void divide_desc(int levi, int desni){ //to je zdej samo za up
@@ -349,18 +354,21 @@ public class Naloga1 {
         int pivot = za_qs[(i+j)/2];
 	    while (i <= j) {
 	      while (za_qs[i] > pivot) {
+	    	  primerjave++;
 	        i++;
 	      }
 	      while (za_qs[j] < pivot) {
+	    	  primerjave++;
 	        j--;
 	      }
 	      if (i <= j) {
 	        exchange(i, j);
+	        premiki+=3;
 	        i++;
 	        j--;
 	      }
 	    }
-	    izpisi_sled_qs(levi,desni,j,i);
+	    if(nacin.equals("trace")){izpisi_sled_qs(levi,desni,j,i);}
         if(levi < j) divide_desc(levi,j); // leva polovica od zaèetka tabele do elementa, pri katerem se tabela deli
         if(i < desni) divide_desc(i, desni); // desna polovica od elementa+1, kjer se je tabela delila do konca tabele
 	}
@@ -373,11 +381,6 @@ public class Naloga1 {
 	    za_qs[j] = temp;
 	  }
 	
-
-	private static int qs_desc(int levi, int desni) {
-		return (Integer) null;
-	}
-
 
 	private static int[] double_array(int[] a, int vel){
 		if(vel<2){vel=2;}
@@ -425,26 +428,33 @@ public class Naloga1 {
 	}
 
 	public static void qs_asc() {
+		primerjave=0; premiki=0;
 	    divide_asc(0,za_qs.length-1);
+
+		if(nacin.equals("count")){System.out.println(primerjave+" "+premiki);}
 	  }
 
 	public static void divide_asc(int levi, int desni){ //to je zdej samo za up
+		
 		int i = levi, j = desni;
 	    int pivot = za_qs[(i+j)/2];
 	    while (i <= j) {
 	      while (za_qs[i] < pivot) {
 	        i++;
+	        primerjave++;
 	      }
 	      while (za_qs[j] > pivot) {
 	        j--;
+	        primerjave++;
 	      }
 	      if (i <= j) {
 	        exchange(i, j);
 	        i++;
 	        j--;
+	        premiki+=3;
 	      }
 	    }
-	    izpisi_sled_qs(levi,desni,i,j);
+	    if(nacin.equals("trace")){izpisi_sled_qs(levi,desni,i,j);}
 	    if(levi < j) divide_asc(levi,j); // leva polovica od zaèetka tabele do elementa, pri katerem se tabela deli
 	    if(i < desni) divide_asc(i, desni); // desna polovica od elementa+1, kjer se je tabela delila do konca tabele
 	}
