@@ -353,6 +353,7 @@ public class Naloga1 {
 		int i = levi, j = desni;
         int pivot = za_qs[(i+j)/2];
 	    while (i <= j) {
+	    	primerjave++;
 	      while (za_qs[i] > pivot) {
 	    	  primerjave++;
 	        i++;
@@ -364,6 +365,7 @@ public class Naloga1 {
 	      if (i <= j) {
 	        exchange(i, j);
 	        premiki+=3;
+	        primerjave++;
 	        i++;
 	        j--;
 	      }
@@ -439,6 +441,7 @@ public class Naloga1 {
 		int i = levi, j = desni;
 	    int pivot = za_qs[(i+j)/2];
 	    while (i <= j) {
+	    	primerjave++;
 	      while (za_qs[i] < pivot) {
 	        i++;
 	        primerjave++;
@@ -448,6 +451,7 @@ public class Naloga1 {
 	        primerjave++;
 	      }
 	      if (i <= j) {
+	    	  primerjave++;
 	        exchange(i, j);
 	        i++;
 	        j--;
