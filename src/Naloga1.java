@@ -59,7 +59,7 @@ public class Naloga1 {
 			
 			je_zamenjava_bla = false;
 			//System.out.println(in.length);
-			for (i = (in.length-1); i > dolzina_urejenega_dela; i--) {//bolši pogoj kot da je veèji od 0 saj ne primerja naprej
+			for (i = (in.length-1); i > dolzina_urejenega_dela; i--) {//bolsi pogoj kot da je vecji od 0 saj ne primerja naprej
 				prim++;
 				if (in[i] < in[i - 1])
 				{
@@ -92,7 +92,7 @@ public class Naloga1 {
 			
 			je_zamenjava_bla = false;
 			//System.out.println(in.length);
-			for (i = (in.length-1); i > dolzina_urejenega_dela; i--) {//bolši pogoj kot da je veèji od 0 saj ne primerja naprej
+			for (i = (in.length-1); i > dolzina_urejenega_dela; i--) {//bolsi pogoj kot da je vecji od 0 saj ne primerja naprej
 				prim++;
 				if (in[i] > in[i - 1])
 				{
@@ -371,7 +371,7 @@ public class Naloga1 {
 	      }
 	    }
 	    if(nacin.equals("trace")){izpisi_sled_qs(levi,desni,j,i);}
-        if(levi < j) divide_desc(levi,j); // leva polovica od zaèetka tabele do elementa, pri katerem se tabela deli
+        if(levi < j) divide_desc(levi,j); // leva polovica od zaetka tabele do elementa, pri katerem se tabela deli
         if(i < desni) divide_desc(i, desni); // desna polovica od elementa+1, kjer se je tabela delila do konca tabele
 	}
 	
@@ -459,7 +459,7 @@ public class Naloga1 {
 	      }
 	    }
 	    if(nacin.equals("trace")){izpisi_sled_qs(levi,desni,i,j);}
-	    if(levi < j) divide_asc(levi,j); // leva polovica od zaèetka tabele do elementa, pri katerem se tabela deli
+	    if(levi < j) divide_asc(levi,j); // leva polovica od zacetka tabele do elementa, pri katerem se tabela deli
 	    if(i < desni) divide_asc(i, desni); // desna polovica od elementa+1, kjer se je tabela delila do konca tabele
 	}
 
