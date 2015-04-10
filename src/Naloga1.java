@@ -326,7 +326,6 @@ public class Naloga1 {
 			}
 		}else if (al.equals("qs") && ord.equals("up")) {
 			za_qs=in;
-			System.out.println("sled: -");
 			qs_asc();
 			if (nacin.equals("count")) {// se druga dva nacina za count
 				qs_asc();//urejen je itak
@@ -339,7 +338,27 @@ public class Naloga1 {
 				qs_desc();
 				qs_asc();
 			}
+		}else if(al.equals("ms") && ord.equals("up")){
+			za_qs=in;
+			ms_asc();
+			if (nacin.equals("count")) {// se druga dva nacina za count
+				ms_asc();
+				ms_desc();
+			}
+		}else if(al.equals("ms") && nacin.equals("down")){
+			za_qs=in;
+			ms_desc();
+			if (nacin.equals("count")) {// se druga dva nacina za count
+				ms_desc();
+				ms_asc();
+			}
 		}
+		
+		
+		
+		
+		
+		
 		
 	}
 
@@ -394,33 +413,6 @@ public class Naloga1 {
 			    }
 		   return rez2;//priredit rez<-rez2
 	}
-
-	/*private static int[] read_intArray_from_stdin() {//za napisat
-		int vel=1;
-		if(table_length!= -1){vel=table_length;}
-		else{table_length=0;}
-		int[] rez= new int[vel];
-		Scanner s=new Scanner(System.in);
-		int i=0;
-		while (s.hasNextInt()) {
-			//System.out.println("aaa");
-			if(i>=rez.length){//ce je vecji je treba tabelo alocirat naprej
-				if(vel<2){vel=2;}
-				else {vel*=2;}
-				rez=double_array(rez,vel);
-			}
-		        rez[i]=s.nextInt();
-		        i++;
-		        table_length++;//globaln stevec za stevilo elementov ce bo treba
-		        System.out.println("i: "+i);
-		     
-		  }
-		s.close();
-		
-		int[] r= {8, 5, 6, 1, 7, 2};
-		for(int n:rez){System.out.printf("%d",n);}
-		return r;
-	} */
 	
 	private static void set_arg(String[] a, int b){
 		if(b>3){table_length=Integer.parseInt(a[3]);}
@@ -473,5 +465,103 @@ public class Naloga1 {
 		}
 		System.out.println(iz);
 	}
+
+	public static void izpisi_sled_ms(int levi, int desni, int x){
+		String iz="";
+		for(int stev1=levi;stev1<=desni;stev1++){
+			if(stev1==x){iz=iz+"| ";}
+			iz=iz+za_qs[stev1]+" ";
+		}
+		System.out.println(iz);
+	}
+
+	public static void izpisi_sled_merge(int levi, int desni){
+		String iz="";
+		for(int stev1=levi;stev1<=desni;stev1++){
+			iz=iz+za_qs[stev1]+" ";
+		}
+		System.out.println(iz);
+	}
+
+	public static void ms_asc(){
+		ms_porazdeli_tabelo_asc(0, za_qs.length-1);
+	}
+	
+	public static void ms_porazdeli_tabelo_asc(int levi, int desni){
+	      int mid = levi + (desni - levi) / 2;
+	    if (levi < desni) {
+	    	izpisi_sled_ms(levi,desni,mid+1);
+	      ms_porazdeli_tabelo_asc(levi, mid);
+	      ms_porazdeli_tabelo_asc(mid + 1, desni);
+	      merge_asc(levi, mid, desni);
+	    }
+	}
+	
+	  private static void merge_asc(int levi, int mid, int desni) {
+		  int[] temp_arr=new int[za_qs.length];
+		    for (int i = levi; i <= desni; i++) {
+		      temp_arr[i] = za_qs[i];
+		    }
+		    int i = levi;
+		    int j = mid + 1;
+		    int k = levi;
+		    while (i <= mid && j <= desni) {//kopiraj min od obeh v originalni arr
+		      if (temp_arr[i] <= temp_arr[j]) {
+		        za_qs[k] = temp_arr[i];
+		        i++;
+		      } else {
+		        za_qs[k] = temp_arr[j];
+		        j++;
+		      }
+		      k++;
+		    }
+		    while (i <= mid) {//copy še drugo na levi
+		      za_qs[k] = temp_arr[i];
+		      k++;
+		      i++;
+		    }
+		    izpisi_sled_merge(levi, desni);
+		  }
+	
+		public static void ms_desc(){
+			ms_porazdeli_tabelo_desc(0, za_qs.length-1);
+		}
+		
+		public static void ms_porazdeli_tabelo_desc(int levi, int desni){
+		      int mid = levi + (desni - levi) / 2;
+		    if (levi < desni) {
+		    	izpisi_sled_ms(levi,desni,mid+1);
+		      ms_porazdeli_tabelo_desc(levi, mid);
+		      ms_porazdeli_tabelo_desc(mid + 1, desni);
+		      merge_desc(levi, mid, desni);
+		    }
+		}
+		
+		  private static void merge_desc(int levi, int mid, int desni) {
+			  int[] temp_arr=new int[za_qs.length];
+			    for (int i = levi; i <= desni; i++) {
+			      temp_arr[i] = za_qs[i];
+			    }
+			    int i = levi;
+			    int j = mid + 1;
+			    int k = levi;
+			    while (i <= mid && j <= desni) {//kopiraj min od obeh v originalni arr
+			      if (temp_arr[i] >= temp_arr[j]) {
+			        za_qs[k] = temp_arr[i];
+			        i++;
+			      } else {
+			        za_qs[k] = temp_arr[j];
+			        j++;
+			      }
+			      k++;
+			    }
+			    while (i >= mid) {//copy še drugo na levi
+			      za_qs[k] = temp_arr[i];
+			      k++;
+			      i++;
+			    }
+			    izpisi_sled_merge(levi, desni);
+			  }
+		
 }
 
