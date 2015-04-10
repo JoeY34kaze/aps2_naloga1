@@ -6,11 +6,16 @@ public class Naloga1 {
 	public static String algo; //ss,ms,hs,...
 	public static String order;//asc, desc
 	public static int table_length=-1;
+	
+	public static int[] za_qs;
+	
+	public static int primerjave=0;
+	public static int premiki=0;
 
 
 	
 	
-	private static int[] read_intArray_from_stdin() {//za napisat
+ 	private static int[] read_intArray_from_stdin() {//za napisat
 		
 		if(table_length==-1){
 			int[] rez= new int[1];
@@ -260,13 +265,15 @@ public class Naloga1 {
 		
 		
 		
-		int[] a=read_intArray_from_stdin();
+		//int[] a=read_intArray_from_stdin();
 		
 		//for(int n:a){System.out.println("- "+n);}
 		
 		
 		//int[] a= {8,5,6,1,7,2};
+		int[] a= {8, 5, 6, 1, 7, 2, 0, 9};
 		run_algo(a,nacin, algo, order, table_length);
+		//izpisi_sled_qs(za_qs, 0, 0);
 	}
 
 	public static void izpisi_sled(int[] in, int dolzina_urejenega_dela){
@@ -278,7 +285,7 @@ public class Naloga1 {
 		if(dolzina_urejenega_dela == in.length){iz=iz+"| ";}
 		System.out.println(iz);
 	}
-
+	
 	public static void run_algo(int[] in, String nac, String al, String ord, int len) {
 		if (al.equals("bs") && ord.equals("up")) {
 			int[] urejen = bs_asc(in, len);
@@ -317,9 +324,65 @@ public class Naloga1 {
 				is_desc(urejen, len);
 				is_asc(urejen, len);
 			}
+		}else if (al.equals("qs") && ord.equals("up")) {
+			za_qs=in;
+			System.out.println("sled: -");
+			qs_asc();
+			if (nacin.equals("count")) {// se druga dva nacina za count
+				qs_asc();//urejen je itak
+				qs_desc(); //isto bi mogl delat
+			}
+		}else if (al.equals("qs") && ord.equals("down")) {
+			za_qs=in;
+			qs_desc();
+			if (nacin.equals("count")) {// se druga dva nacina za count
+				qs_desc();
+				qs_asc();
+			}
 		}
-		else{}
+		
 	}
+
+	private static void qs_desc() {
+		primerjave=0; premiki=0;
+		divide_desc(0, za_qs.length-1);	
+		if(nacin.equals("count")){System.out.println(primerjave+" "+premiki);}
+	}
+
+	public static void divide_desc(int levi, int desni){ //to je zdej samo za up
+		int i = levi, j = desni;
+        int pivot = za_qs[(i+j)/2];
+	    while (i <= j) {
+	    	primerjave++;
+	      while (za_qs[i] > pivot) {
+	    	  primerjave++;
+	        i++;
+	      }
+	      while (za_qs[j] < pivot) {
+	    	  primerjave++;
+	        j--;
+	      }
+	      if (i <= j) {
+	        exchange(i, j);
+	        premiki+=3;
+	        primerjave++;
+	        i++;
+	        j--;
+	      }
+	    }
+	    if(nacin.equals("trace")){izpisi_sled_qs(levi,desni,j,i);}
+        if(levi < j) divide_desc(levi,j); // leva polovica od zaèetka tabele do elementa, pri katerem se tabela deli
+        if(i < desni) divide_desc(i, desni); // desna polovica od elementa+1, kjer se je tabela delila do konca tabele
+	}
+	
+	
+	
+	private static void exchange(int i, int j) {
+	    int temp = za_qs[i];
+	    za_qs[i] = za_qs[j];
+	    za_qs[j] = temp;
+	  }
+	
 
 	private static int[] double_array(int[] a, int vel){
 		if(vel<2){vel=2;}
@@ -364,6 +427,51 @@ public class Naloga1 {
 		if(b>2){order=a[2];}
 		if(b>1){algo=a[1];}
 		if(b>0){nacin=a[0];}
+	}
+
+	public static void qs_asc() {
+		primerjave=0; premiki=0;
+	    divide_asc(0,za_qs.length-1);
+
+		if(nacin.equals("count")){System.out.println(primerjave+" "+premiki);}
+	  }
+
+	public static void divide_asc(int levi, int desni){ //to je zdej samo za up
+		
+		int i = levi, j = desni;
+	    int pivot = za_qs[(i+j)/2];
+	    while (i <= j) {
+	    	primerjave++;
+	      while (za_qs[i] < pivot) {
+	        i++;
+	        primerjave++;
+	      }
+	      while (za_qs[j] > pivot) {
+	        j--;
+	        primerjave++;
+	      }
+	      if (i <= j) {
+	    	  primerjave++;
+	        exchange(i, j);
+	        i++;
+	        j--;
+	        premiki+=3;
+	      }
+	    }
+	    if(nacin.equals("trace")){izpisi_sled_qs(levi,desni,i,j);}
+	    if(levi < j) divide_asc(levi,j); // leva polovica od zaèetka tabele do elementa, pri katerem se tabela deli
+	    if(i < desni) divide_asc(i, desni); // desna polovica od elementa+1, kjer se je tabela delila do konca tabele
+	}
+
+	public static void izpisi_sled_qs(int levi, int desni, int i, int j){
+		j++;
+		String iz="";
+		for(int stev1=levi;stev1<=desni;stev1++){
+			if(stev1==i){iz=iz+"| ";}
+			if(stev1==j){iz=iz+"| ";}
+			iz=iz+za_qs[stev1]+" ";
+		}
+		System.out.println(iz);
 	}
 }
 
