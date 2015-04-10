@@ -538,10 +538,10 @@ public class Naloga1 {
 	public static void izpisi_sled_ms(int levi, int desni, int x) {
 		String iz = "";
 		for (int stev1 = levi; stev1 <= desni; stev1++) {
+			iz = iz + za_qs[stev1] + " ";
 			if (stev1 == x) {
 				iz = iz + "| ";
 			}
-			iz = iz + za_qs[stev1] + " ";
 		}
 		System.out.println(iz);
 	}
@@ -562,15 +562,19 @@ public class Naloga1 {
 	}
 
 	public static void ms_porazdeli_tabelo_asc(int levi, int desni) {
-		int mid = levi + (desni - levi) / 2;
-		if (levi < desni) {
-			primerjave++;
+		int mid = levi + (int)Math.ceil((desni - levi) / 2);
+		primerjave++;
+		if ((levi) <= desni) {
+			
+			//System.out.printf("levi: %d desni: %d mid: %d\n", levi,desni,mid);
+			if(levi==desni){//System.out.println("wololo "+levi);
+			return;}
 			if (nacin.equals("trace")) {
-				izpisi_sled_ms(levi, desni, mid + 1);
+				izpisi_sled_ms(levi, desni, mid);
 			}
 			ms_porazdeli_tabelo_asc(levi, mid);
-			ms_porazdeli_tabelo_asc(mid + 1, desni);
-			merge_asc(levi, mid, desni);
+			ms_porazdeli_tabelo_asc(mid+1, desni);
+			merge_asc(levi, mid+1, desni);
 		}
 	}
 
@@ -583,7 +587,7 @@ public class Naloga1 {
 		int j = mid + 1;
 		int k = levi;
 		while (i <= mid && j <= desni) {// kopiraj min od obeh v originalni arr
-			primerjave++;
+			
 			if (temp_arr[i] <= temp_arr[j]) {
 				//primerjave++;
 				za_qs[k] = temp_arr[i];
@@ -616,7 +620,7 @@ public class Naloga1 {
 		int mid = levi + (desni - levi) / 2;
 		if (levi < desni) {
 			if (nacin.equals("trace")) {
-				izpisi_sled_ms(levi, desni, mid + 1);
+				izpisi_sled_ms(levi, desni, mid);
 			}
 			ms_porazdeli_tabelo_desc(levi, mid);
 			ms_porazdeli_tabelo_desc(mid + 1, desni);
