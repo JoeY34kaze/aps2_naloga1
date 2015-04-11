@@ -15,7 +15,23 @@ public class Naloga1 {
 
 	
 	
- 	private static int[] read_intArray_from_stdin() {//za napisat
+ 	public static void main(String[] args) {
+		set_arg(args, args.length);
+		
+		
+		
+		int[] a=read_intArray_from_stdin();
+		
+		//for(int n:a){System.out.println("- "+n);}
+		
+		
+		//int[] a= {8,5,6,1,7,2};
+		//int[] a= {				22, 53, 29, -5, -25, -7, 38, 30, 68, -29, 24, -4, -3, -12, 38, 45, 63, 53, 30, 67, -3, -20, 27, 34, 23, 4, 52, 31, -30, 5, 50, -21, 45, -5, 37, 29, -24, -18, 26, 48, 55, 6, 6, -14, 24, -17, 57, -3, -5, 38, -4, 58, 7, 3, 60, 3, 30, 10, 39, -2, 66, 13, 54, 34, 5, -1, 3 ,17, 49, 69, -1, 62, 20, 9, 47, -8, 34, -26, 31, 69, -27, 34, -27, 68, 57, 59, 35, 5 ,-29, 28, -10, 9 ,-28, -7, 21, 4, 46, 5, 40, 2,};
+		run_algo(a,nacin, algo, order, table_length);
+		//izpisi_sled_qs(za_qs, 0, 0);
+	}
+
+	private static int[] read_intArray_from_stdin() {//za napisat
 		
 		if(table_length==-1){
 			int[] rez= new int[1];
@@ -51,13 +67,11 @@ public class Naloga1 {
 		int prem=0;
 		int i;
 		int dolzina_urejenega_dela=0;
-		boolean je_zamenjava_bla = true; // za prvi obhod
 		int temp;
-		while (je_zamenjava_bla) {
+		while (dolzina_urejenega_dela!=in.length) {
 			
 			if(nacin.equals("trace")){izpisi_sled(in, dolzina_urejenega_dela);}
 			
-			je_zamenjava_bla = false;
 			//System.out.println(in.length);
 			for (i = (in.length-1); i > dolzina_urejenega_dela; i--) {//bolsi pogoj kot da je vecji od 0 saj ne primerja naprej
 				prim++;
@@ -66,7 +80,6 @@ public class Naloga1 {
 					temp = in[i];
 					in[i] = in[i - 1];
 					in[i - 1] = temp;
-					je_zamenjava_bla = true;
 					prem+=3;
 					
 				}
@@ -84,13 +97,11 @@ public class Naloga1 {
 		int prem=0;
 		int i;
 		int dolzina_urejenega_dela=0;
-		boolean je_zamenjava_bla = true; // za prvi obhod
 		int temp;
-		while (je_zamenjava_bla) {
+		while (dolzina_urejenega_dela!=in.length) {
 			
 			if(nacin.equals("trace")){izpisi_sled(in, dolzina_urejenega_dela);}
 			
-			je_zamenjava_bla = false;
 			//System.out.println(in.length);
 			for (i = (in.length-1); i > dolzina_urejenega_dela; i--) {//bolsi pogoj kot da je vecji od 0 saj ne primerja naprej
 				prim++;
@@ -99,7 +110,6 @@ public class Naloga1 {
 					temp = in[i];
 					in[i] = in[i - 1];
 					in[i - 1] = temp;
-					je_zamenjava_bla = true;
 					prem+=3;
 					
 				}
@@ -122,7 +132,7 @@ public class Naloga1 {
 			if(nacin.equals("trace")){izpisi_sled(in, a);}
 			for(int i=b;i>a;i--){
 				//get min
-				if(in[i-1]<min){
+				if(in[i-1]<=min){
 					min=in[i-1];
 					i_min=i-1;
 				}
@@ -153,7 +163,7 @@ public class Naloga1 {
 			if(nacin.equals("trace")){izpisi_sled(in, a);}
 			for(int i=b;i>a;i--){
 				//get min
-				if(in[i-1]>max){
+				if(in[i-1]>=max){
 					max=in[i-1];
 					i_max=i-1;
 				}
@@ -260,22 +270,6 @@ public class Naloga1 {
 		return in;
 	}
 
-	public static void main(String[] args) {
-		set_arg(args, args.length);
-		
-		
-		
-		//int[] a=read_intArray_from_stdin();
-		
-		//for(int n:a){System.out.println("- "+n);}
-		
-		
-		//int[] a= {8,5,6,1,7,2};
-		int[] a= {8, 5, 6, 1, 7, 2, 0, 9};
-		run_algo(a,nacin, algo, order, table_length);
-		//izpisi_sled_qs(za_qs, 0, 0);
-	}
-
 	public static void izpisi_sled(int[] in, int dolzina_urejenega_dela){
 		String iz="";
 		for(int i=0;i<in.length;i++){
@@ -326,7 +320,6 @@ public class Naloga1 {
 			}
 		}else if (al.equals("qs") && ord.equals("up")) {
 			za_qs=in;
-			System.out.println("sled: -");
 			qs_asc();
 			if (nacin.equals("count")) {// se druga dva nacina za count
 				qs_asc();//urejen je itak
